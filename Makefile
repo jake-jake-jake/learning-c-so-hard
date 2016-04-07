@@ -7,5 +7,6 @@ clean:
 	rm -f ex04
 	rm -f ex05
 	rm -f ex06
+	rm -f ex07
 
-all: ex01 ex03 ex04 ex05 ex06
+all: ex01 ex03 ex04 ex05 ex06 ex07
