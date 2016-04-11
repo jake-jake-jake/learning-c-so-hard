@@ -8,5 +8,8 @@ clean:
 	rm -f ex05
 	rm -f ex06
 	rm -f ex07
+	rm -f ex08
+	rm -f ex09
+	rm -f ex10
 
-all: ex01 ex03 ex04 ex05 ex06 ex07
+all: ex01 ex03 ex04 ex05 ex06 ex07 ex08 ex09 ex10
