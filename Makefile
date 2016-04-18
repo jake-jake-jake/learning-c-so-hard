@@ -1,5 +1,5 @@
 
-CFLAGS=-Wall -g
+CFLAGS= -Wall -g
 
 clean:
 	rm -f ex01
@@ -11,5 +11,9 @@ clean:
 	rm -f ex08
 	rm -f ex09
 	rm -f ex10
+	rm -f ex11
+	rm -f ex12
+	rm -f ex13
+	rm -f ex14
 
-all: ex01 ex03 ex04 ex05 ex06 ex07 ex08 ex09 ex10
+all: ex01 ex03 ex04 ex05 ex06 ex07 ex08 ex09 ex10 ex11 ex12 ex13 ex14
