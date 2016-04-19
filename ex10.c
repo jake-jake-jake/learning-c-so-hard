@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 int main(int argc, char*argv[])
-{
+{ 
     int i = 0;
 
     // let's make our own array of strings
