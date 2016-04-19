@@ -20,7 +20,6 @@ void print_letters(char arg[])
 {
     int i = 0;
     int len = strlen(arg);
-    printf("len is equal to %d \n", len);
 
     for(i = 0; i < len; i++){
         char ch = arg[i];
