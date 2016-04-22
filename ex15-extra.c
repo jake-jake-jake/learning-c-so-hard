@@ -17,6 +17,10 @@ int main(int argc, char *argv[])
     // create two arrays we care about
     int ages[] = {23, 43, 12, 89};
     char **names = argv;
+    int name_address = names;
+    int argv_address = argv;
+    printf("Address of **names: %p\n", (void *)name_address);
+    printf("Address of *argv: %p\n", (void *)argv_address);
 
     int count = sizeof(ages) / sizeof(int);
 
@@ -32,6 +36,42 @@ int main(int argc, char *argv[])
     printf("---\n");
 
     as_array(argc, names, ages);
+
+    printf("---\n");
+
+    int *ptr;
+    int val = 1;
+    ptr = &val;
+ 
+    // print out dereferenced values
+    printf("dereference *ptr = %p\n", (void *)ptr);
+    printf("dereference address of val *(&val) = %d\n", *(&val));
+
+    printf("---\n");
+    int *uninit; // leave the int pointer uninitialized
+    int *nullptr = 0; // initialized to 0, could also be NULL
+    void *vptr; // declare as a void pointer type
+    int valu = 1;
+    int *iptr;
+    int *backptr;
+     
+    // void type can hold any pointer type or reference
+    iptr = &valu;
+    vptr = iptr;
+    printf("iptr=%p, vptr=%p\n", (void *)iptr, (void *)vptr);
+     
+    // assign void pointer back to an int pointer and dereference
+    backptr = vptr;
+    printf("*backptr=%d\n", *backptr);
+     
+    // print null and uninitialized pointers
+    printf("uninit=%p, nullptr=%p\n", (void *)uninit, (void *)nullptr);
+    // don't know what you will get back, random garbage?
+    // printf("*nullptr=%d\n", nullptr);
+    // will cause a segmentation fault
+    // printf("*nullptr=%d\n", nullptr);
+
+
 
     // setup the pointers to the start of the arrays
     // int *cur_age = ages;
