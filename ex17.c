@@ -4,9 +4,13 @@
 #include <errno.h>
 #include <string.h>
 
+// the define directive creates tokens (the all caps strings) which the compiler replaces with the 
+// params following. You can also define functions, which is pretty cool:
+// #define multiply (a, b) (a * b)
 #define MAX_DATA 512
 #define MAX_ROWS 100
 
+// declaring the struct for each Address in the db
 struct Address {
     int id;
     int set;
@@ -14,17 +18,25 @@ struct Address {
     char email[MAX_DATA];
 };
 
+// defining the struct for the Database, which will have space for MAX_ROWS. Since this definition
+// refers to Address, Address must be predeclared.
 struct Database {
     struct Address rows[MAX_ROWS];
 };
 
+// Defining the connection to a file.
 struct Connection {
+    // the FILE struct is defined by the C standard library. So, you don't have to actually implement file
+    // operations.
     FILE *file;
     struct Database *db;
 };
 
+// DIE DIE DIE: a simple function to quit the program if things go wrong. The message pointer is pretty good;
+// makes die into a metafunction.
 void die(const char *message)
-{
+{   
+    // errno and perror are base functions that return numerical codes for errors.
     if(errno) {
         perror(message);
     } else {
@@ -34,40 +46,51 @@ void die(const char *message)
     exit(1);
 }
 
+// Function to print out information of an Address; takes a pointer to an address.
 void Address_print(struct Address *addr)
 {
     printf("%d %s %s\n", addr->id, addr->name, addr->email);
 }
 
+// Function to connect to a DB file. Makes use of some basic function such as fread and size of; references the
+// fields of the connection pointer with the -> operator. Important to note that this operates on the database 
+// in place: nothing is returned by the function.
 void Database_load(struct Connection *conn)
 {
     int rc = fread(conn->db, sizeof(struct Database), 1, conn->file);
     if(rc != 1) die("Failed to load database.");
 }
 
+// Function for opening a database; returns a pointer to a Connection; takes a filename and a mode char. Allocates
+// mem on the heap to do this.
 struct Connection *Database_open(const char *filename, char mode)
 {
+    // Allocate memory for the database on the heap. Throw an error if allocations fails.
     struct Connection *conn = malloc(sizeof(struct Connection));
     if(!conn) die("Memory error");
 
+    // Allocate space for the database on the heap; associate it with the connection pointer.
     conn->db = malloc(sizeof(struct Database));
     if(!conn->db) die("Memory error");
 
+    // Accept modes for reading, writing, etc.
     if(mode == 'c') {
         conn->file = fopen(filename, "w");
     } else {
         conn->file = fopen(filename, "r+");
-
+        // Attempt to load the file into the conn pointer.
         if(conn->file) {
             Database_load(conn);
         }
     }
 
+    // If the file fails to load, throw a different error.
     if(!conn->file) die("Failed to open the file");
 
     return conn;
 }
 
+// Destroys a database connection by taking the pointer to a connection.
 void Database_close(struct Connection *conn)
 {
     if(conn) {
@@ -118,6 +141,7 @@ void Database_set(struct Connection *conn, int id, const char *name, const char 
 
 void Database_get(struct Connection *conn, int id)
 {
+    // The address call returns a pointer to the heap
     struct Address *addr = &conn->db->rows[id];
 
     if(addr->set) {
@@ -197,3 +221,4 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+
