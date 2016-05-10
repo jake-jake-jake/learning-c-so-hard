@@ -13,7 +13,7 @@ typedef struct Monster Monster;
 int Monster_attack(void *self, int damage);
 int Monster_init(void *self);
 
-struct Room {
+typedef struct Room {
     Object proto;
 
     Monster *bad_guy;

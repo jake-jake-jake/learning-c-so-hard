@@ -17,7 +17,7 @@ int Monster_attack(void *self, int damage){
         return 0;
     } else {
         printf("It is dead.\n");
-        return 1l;
+        return 1;
     }
 }
 

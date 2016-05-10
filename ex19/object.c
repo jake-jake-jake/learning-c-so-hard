@@ -17,7 +17,9 @@ void Object_destroy(void *self)
 void Object_describe(void *self)
 {
     Object *obj = self;
-    printf("%s.\n", obj->description);
+    if(obj->description) { 
+       printf("%s.\n", obj->description);
+    }
 }
 
 int Object_init(void *self)
@@ -40,6 +42,7 @@ int Object_attack(void *self, int damage)
 
 void *Object_new(size_t size, Object proto, char *description)
 {
+    assert(description != NULL);
     // setup the default functions in case they aren't set
     if(!proto.init) proto.init = Object_init;
     if(!proto.describe) proto.describe = Object_describe;
@@ -49,11 +52,12 @@ void *Object_new(size_t size, Object proto, char *description)
 
     // this seems weird, but we can make a struct of one size,
     // then point a different pointer at it to "cast" it
-    Object *el = calloc(1, size);
-    *el = proto;
+    Object *el = calloc(1, size);   // create space for passed object on the heap
+    assert(el != NULL);             // confirm that it has been allocated
+    *el = proto;                    // copy the proto param to the heap
 
     // copy the description over
-    el->description = strdup(description);
+    el->description = strdup(description);  // duplicate string in allocated el field
 
     // initialize it with whatever init we were given
     if(!el->init(el)) {
