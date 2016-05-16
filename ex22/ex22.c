@@ -11,6 +11,12 @@ int get_age()
     return THE_AGE;
 }
 
+int *age_address()
+{
+    int *a_address = &THE_AGE;
+    return a_address;
+}
+
 void set_age(int age)
 {
     THE_AGE = age;

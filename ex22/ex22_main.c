@@ -28,6 +28,13 @@ int main(int argc, char *argv[])
 
     log_info("My age is now: %d", get_age());
 
+    int *illegal_age_access = age_address();
+    printf("%p\n", illegal_age_access);
+    *illegal_age_access = 80;
+    printf("%p\n", illegal_age_access);
+
+    log_info("My age is now: %d", get_age());
+
     log_info("THE_SIZE is: %d", THE_SIZE);
     print_size();
 
